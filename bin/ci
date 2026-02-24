@@ -1,6 +1,106 @@
-#!/usr/bin/env ruby
-require_relative "../config/boot"
-require "active_support/continuous_integration"
+#!/usr/bin/env bash
+set -euo pipefail
 
-CI = ActiveSupport::ContinuousIntegration
-require_relative "../config/ci.rb"
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+COMMIT=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+OVERALL=0
+
+declare -a STEPS=("rubocop" "brakeman" "bundle-audit" "rspec" "e2e")
+declare -A RESULTS
+
+# --- RuboCop ---
+echo "=== [1/5] RuboCop ==="
+if bundle exec rubocop; then
+  RESULTS[rubocop]="pass"
+else
+  RESULTS[rubocop]="fail"
+  OVERALL=1
+fi
+
+echo ""
+
+# --- Brakeman ---
+echo "=== [2/5] Brakeman ==="
+if bundle exec brakeman -w3 --no-pager; then
+  RESULTS[brakeman]="pass"
+else
+  RESULTS[brakeman]="fail"
+  OVERALL=1
+fi
+
+echo ""
+
+# --- bundle-audit ---
+echo "=== [3/5] bundle-audit ==="
+if bundle exec bundle-audit check --update; then
+  RESULTS[bundle-audit]="pass"
+else
+  RESULTS[bundle-audit]="fail"
+  OVERALL=1
+fi
+
+echo ""
+
+# --- RSpec ---
+echo "=== [4/5] RSpec ==="
+if bundle exec rspec; then
+  RESULTS[rspec]="pass"
+else
+  RESULTS[rspec]="fail"
+  OVERALL=1
+fi
+
+echo ""
+
+# --- E2E ---
+echo "=== [5/5] E2E ==="
+if bin/e2e; then
+  RESULTS[e2e]="pass"
+else
+  RESULTS[e2e]="fail"
+  OVERALL=1
+fi
+
+echo ""
+
+# --- Generate ci_summary.md ---
+SUMMARY_FILE="ci_summary.md"
+
+{
+  echo "# CI Summary"
+  echo ""
+  echo "| Field | Value |"
+  echo "|---|---|"
+  echo "| Branch | \`${BRANCH}\` |"
+  echo "| Commit | \`${COMMIT}\` |"
+  echo "| Timestamp | ${TIMESTAMP} |"
+  echo ""
+  echo "## Results"
+  echo ""
+  for step in "${STEPS[@]}"; do
+    result="${RESULTS[$step]}"
+    if [ "$result" = "pass" ]; then
+      echo "- [x] ${step}"
+    else
+      echo "- [ ] ${step}"
+    fi
+  done
+  echo ""
+  if [ "$OVERALL" -eq 0 ]; then
+    echo "**Status: ALL PASSED**"
+  else
+    echo "**Status: FAILED**"
+  fi
+} > "$SUMMARY_FILE"
+
+echo "=== CI summary written to ${SUMMARY_FILE} ==="
+
+if [ "$OVERALL" -eq 0 ]; then
+  echo "=== All steps passed ==="
+else
+  echo "=== Some steps failed ==="
+fi
+
+exit "$OVERALL"

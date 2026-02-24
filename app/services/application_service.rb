@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 class ApplicationService
   class Error < StandardError; end
 
-  def self.call(...)
-    new(...).call
-  end
+  class << self
+    def call(...)
+      new(...).call
+    end
 
-  def self.save(...)
-    new(...).save
+    def save(...)
+      new(...).save
+    end
   end
 
   def call

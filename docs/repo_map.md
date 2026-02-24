@@ -1,0 +1,45 @@
+# Repo Map
+
+Where things live and what they do.
+
+## Directory Structure
+
+| Directory | Purpose |
+|---|---|
+| `app/controllers/` | Thin controllers — instantiate services, handle responses |
+| `app/models/` | Persistence, associations, validations, scopes |
+| `app/services/` | Business logic — service objects with `call` or `save` |
+| `app/policies/` | ActionPolicy authorization policies |
+| `app/validators/` | Custom validator classes for complex validation logic |
+| `app/views/` | ERB templates with Turbo Frames and Streams |
+| `app/javascript/controllers/` | Stimulus controllers |
+| `app/jobs/` | Background jobs — thin wrappers that delegate to services |
+| `config/` | Rails configuration, routes, initializers |
+| `db/` | Migrations and schema (SQLite3) |
+| `spec/` | RSpec tests — request specs, model specs, service specs |
+| `docs/` | Project documentation (patterns, architecture, decisions) |
+| `e2e/` | End-to-end tests (Station C — Playwright) |
+
+## Key Files
+
+| File | Purpose |
+|---|---|
+| `CLAUDE.md` | Agent entry point — tech stack, key rules, quick start |
+| `Procfile.dev` | Process definitions for `bin/dev` |
+| `.rubocop.yml` | Linting rules (Standard + Rails extensions) |
+| `.rubycritic.yml` | Code quality thresholds |
+| `.rspec` | RSpec configuration |
+| `config/routes.rb` | All application routes |
+| `db/schema.rb` | Current database schema (auto-generated) |
+
+## bin/ Scripts
+
+| Script | When to Use |
+|---|---|
+| `bin/setup` | First time setup or after pulling new changes with migrations |
+| `bin/dev` | Start the development server (web + CSS + jobs) |
+| `bin/test` | Run tests — pass args for targeted runs: `bin/test spec/models/` |
+| `bin/lint` | Check code style + security before committing |
+| `bin/ci` | Full local CI — run before pushing to confirm everything passes |
+| `bin/smoke` | Quick sanity check — app boots, DB connects, routes load |
+| `bin/e2e` | End-to-end tests (stub until Station C) |

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "E2E tests not yet configured (Station C)."
+echo "This is a placeholder — exiting successfully."
+exit 0

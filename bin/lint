@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== RuboCop ==="
+bundle exec rubocop
+
+echo ""
+echo "=== Brakeman ==="
+bundle exec brakeman -w3 --no-pager
+
+echo ""
+echo "=== bundle-audit ==="
+bundle exec bundle-audit check --update
+
+echo ""
+echo "=== All checks passed ==="

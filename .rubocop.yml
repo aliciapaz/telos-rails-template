@@ -1,24 +1,54 @@
 inherit_gem:
   rubocop-shopify: rubocop.yml
 
-require:
+plugins:
+  - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
 
 AllCops:
   TargetRubyVersion: 3.3
   NewCops: enable
   Exclude:
-    - "db/**/*"
-    - "bin/**/*"
+    - "bin/**"
+    - "db/schema.rb"
     - "vendor/**/*"
     - "node_modules/**/*"
+    - "tmp/**/*"
 
+# --- Metrics ---
+Metrics/MethodLength:
+  Max: 10
+Metrics/ClassLength:
+  Max: 100
+Metrics/CyclomaticComplexity:
+  Max: 7
+Metrics/PerceivedComplexity:
+  Max: 8
+Metrics/AbcSize:
+  Max: 17
+
+# --- Style ---
 Style/Documentation:
   Enabled: false
 
-Metrics/MethodLength:
-  Max: 10
+# --- RSpec ---
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpecRails/InferredSpecType:
+  Enabled: false
 
-Metrics/ClassLength:
-  Max: 100
+# --- Rails ---
+Bundler/OrderedGems:
+  Enabled: true
+Rails/HasAndBelongsToMany:
+  Enabled: false
+Rails/UnknownEnv:
+  Environments: ["development", "test", "staging", "production"]

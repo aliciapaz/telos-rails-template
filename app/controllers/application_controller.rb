@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Authenticatable
   include LocaleSettable
@@ -9,7 +11,7 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   rescue_from ActionPolicy::Unauthorized do |_ex|
-    flash[:alert] = "You are not authorized to perform this action."
-    redirect_back(fallback_location: root_path)
+    flash[:alert] = t("flash.unauthorized")
+    redirect_back_or_to(root_path)
   end
 end

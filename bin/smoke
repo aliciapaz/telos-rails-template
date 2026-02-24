@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== Boot check ==="
+bundle exec rails runner "puts 'Rails booted successfully'"
+
+echo ""
+echo "=== Database check ==="
+bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1'); puts 'Database OK'"
+
+echo ""
+echo "=== Routes check ==="
+bundle exec rails routes > /dev/null
+echo "Routes loaded successfully"
+
+echo ""
+echo "=== Smoke test passed ==="

@@ -1,0 +1,12 @@
+minimum_score: 85
+threshold_score: 2
+paths:
+  - app/controllers
+  - app/helpers
+  - app/jobs
+  - app/mailers
+  - app/models
+  - app/services
+  - app/policies
+  - app/builders
+  - app/decorators
