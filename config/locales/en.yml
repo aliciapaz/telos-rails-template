@@ -1,0 +1,8 @@
+en:
+  app_name: "Telos App"
+  flash:
+    unauthorized: "You are not authorized to perform this action."
+    not_found: "The requested resource could not be found."
+    created: "%{resource} was successfully created."
+    updated: "%{resource} was successfully updated."
+    destroyed: "%{resource} was successfully deleted."

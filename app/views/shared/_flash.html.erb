@@ -1,0 +1,13 @@
+<% flash.each do |type, message| %>
+  <% css_class = case type.to_sym
+    when :notice, :success then "bg-green-50 text-green-800 border-green-200"
+    when :alert, :error then "bg-red-50 text-red-800 border-red-200"
+    else "bg-blue-50 text-blue-800 border-blue-200"
+  end %>
+  <div class="border rounded-lg p-4 mb-4 <%= css_class %>" data-controller="dismissible" data-action="click->dismissible#dismiss">
+    <div class="flex justify-between items-center">
+      <p><%= message %></p>
+      <button class="text-current opacity-50 hover:opacity-100">&times;</button>
+    </div>
+  </div>
+<% end %>
