@@ -136,7 +136,7 @@ jobs:
 
           cat ci_summary.md
       - name: Upload CI summary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ci-summary
           path: ci_summary.md
