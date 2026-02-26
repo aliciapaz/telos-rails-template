@@ -1,12 +1,41 @@
 version: 2
 updates:
-- package-ecosystem: bundler
-  directory: "/"
-  schedule:
-    interval: weekly
-  open-pull-requests-limit: 10
-- package-ecosystem: github-actions
-  directory: "/"
-  schedule:
-    interval: weekly
-  open-pull-requests-limit: 10
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    groups:
+      rails-ecosystem:
+        patterns:
+          - "rails"
+          - "propshaft"
+          - "turbo-rails"
+          - "stimulus-rails"
+          - "importmap-rails"
+          - "solid_queue"
+          - "solid_cache"
+          - "solid_cable"
+          - "tailwindcss-rails"
+          - "kamal"
+          - "thruster"
+          - "image_processing"
+      dev-test-tools:
+        patterns:
+          - "rubocop-*"
+          - "standard"
+          - "rspec-rails"
+          - "factory_bot_rails"
+          - "shoulda-matchers"
+          - "rubycritic"
+          - "brakeman"
+          - "bundler-audit"
+          - "debug"
+          - "web-console"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
