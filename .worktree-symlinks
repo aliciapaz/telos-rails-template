@@ -1,0 +1,3 @@
+# Gitignored files needed to boot the app in worktrees
+.env
+config/master.key
