@@ -540,7 +540,7 @@ DEPENDENCIES
   kamal
   propshaft
   puma (>= 5.0)
-  rails (~> 8.1.2)
+  rails (>= 8.1)
   rspec-rails
   rubocop-performance
   rubocop-rails
