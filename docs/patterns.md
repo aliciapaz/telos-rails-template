@@ -198,3 +198,60 @@ Three-layer approach:
 1. **Model validations** — data integrity (presence, format, inclusion)
 2. **Custom validators** — complex logic in `app/validators/`
 3. **Service validators** — business rules and external dependencies
+
+## i18n Conventions
+
+- **Shared keys** (navbar, flash messages, errors, common labels) go in the root locale file: `config/locales/{locale}.yml`
+- **Feature-specific keys** go in their own file: `config/locales/{feature}/{locale}.yml`
+- All supported locales must have matching key structures. If you add a key to `en.yml`, add it to `es.yml` too.
+- Use Rails' built-in scoping: `t(".title")` in views resolves based on the template path.
+
+```
+config/locales/
+  en.yml              # shared: navbar, flash, errors, common
+  es.yml
+  devise.en.yml       # devise-specific
+  listings/
+    en.yml            # feature-specific: listings
+    es.yml
+```
+
+## Shared Concerns
+
+When two models share 3+ methods with identical logic, extract a concern to `app/models/concerns/`. Name descriptively: `Chartable`, `Sluggable`, `Trackable`.
+
+```ruby
+# app/models/concerns/sluggable.rb
+module Sluggable
+  extend ActiveSupport::Concern
+
+  included do
+    before_validation :generate_slug
+  end
+
+  private
+
+  def generate_slug
+    self.slug = name&.parameterize
+  end
+end
+```
+
+Same rule applies to controllers: shared behavior goes in `app/controllers/concerns/`.
+
+## Shared View Partials
+
+When two features share HTML structure, extract to `app/views/shared/`. Partials **must** use local variables only — never instance variables.
+
+```erb
+<%# app/views/shared/_card.html.erb %>
+<div class="rounded-lg border p-4">
+  <h3><%= title %></h3>
+  <%= yield %>
+</div>
+
+<%# Usage %>
+<%= render "shared/card", title: "Details" do %>
+  <p>Card content here</p>
+<% end %>
+```
