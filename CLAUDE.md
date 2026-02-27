@@ -19,6 +19,8 @@ Read `docs/repo_map.md` first — it maps every directory and file to its purpos
 - `docs/architecture.md` — System overview and request flow
 - `docs/decision_log.md` — Append-only ADR log
 - `docs/components.md` — UI component inventory
+- `docs/ci.md` — CI pipeline checks and how to fix failures
+- `docs/reusable.md` — Inventory of reusable abstractions (check before building new ones)
 
 ## Tech Stack
 
@@ -38,6 +40,8 @@ Read `docs/repo_map.md` first — it maps every directory and file to its purpos
 - **Turbo first** — use Turbo Frames/Streams instead of custom JS
 - **Stimulus** — small, focused controllers for JS interactions
 - **Request specs** preferred over system specs
+- **Extract, don't clone** — When building a feature parallel to an existing one, extract shared behavior into concerns or base classes. Never copy-paste an entire model/service/view.
+- **Check `docs/reusable.md` first** — Before writing a new service or concern, check for existing abstractions that can be reused or extended.
 
 ## Code Quality
 
