@@ -36,7 +36,8 @@
   "remoteUser": "developer",
   "mounts": [
     "source=telos-rails-bashhistory,target=/commandhistory,type=volume",
-    "source=telos-rails-claude-config,target=/home/developer/.claude,type=volume"
+    "source=telos-rails-claude-config,target=/home/developer/.claude,type=volume",
+    "source=telos-rails-bundle-cache,target=/usr/local/bundle,type=volume"
   ],
   "containerEnv": {
     "CLAUDE_CONFIG_DIR": "/home/developer/.claude",
